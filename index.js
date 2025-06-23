@@ -8,20 +8,17 @@ const puppeteer = require('puppeteer');
   args: ['--no-sandbox', '--disable-setuid-sandbox']
 });
   const page = await browser.newPage();
-  await page.goto('https://cookidoo.be/foundation/nl-BE/explore', { waitUntil: 'networkidle2' });
-
+  await page.goto('https://cookidoo.be/foundation/nl-BE/explore', { waitUntil: 'networkidle0' });
+  await page.waitForSelector('.wf-bento-grid__item'); // wacht op receptenblok
+  
   const recepten = await page.evaluate(() => {
-    const items = [];
-    document.querySelectorAll('.wf-bento-grid__item').forEach((item) => {
-      const link = item.querySelector('a')?.href;
-      const img = item.querySelector('img')?.src;
-      const title = item.querySelector('.wf-bento-grid__header')?.innerText;
-
-      if (link && img && title) {
-        items.push({ title: title.trim(), img, url: link });
-      }
+  const items = document.querySelectorAll('.wf-bento-grid__item');
+  return Array.from(items).map(item => {
+    const title = item.querySelector('.tile__title')?.innerText || '';
+    const image = item.querySelector('img')?.src || '';
+    const link = item.querySelector('a')?.href || '';
+    return { title, image, link };
     });
-    return items.slice(0, 10);
   });
 
   fs.mkdirSync('public', { recursive: true });
