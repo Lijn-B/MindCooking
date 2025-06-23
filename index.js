@@ -2,16 +2,22 @@ const puppeteer = require("puppeteer");
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+});
+const page = await browser.newPage();
 
-  const page = await browser.newPage();
-  await page.goto('https://cookidoo.be/foundation/nl-BE', {
-    waitUntil: 'networkidle0'
-  });
+await page.setUserAgent(
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.1 Safari/537.36"
+);
+await page.setViewport({ width: 1280, height: 800 });
 
-  await page.waitForSelector('.wf-bento-grid__item');
+await page.goto('https://cookidoo.be/foundation/nl-BE', {
+  waitUntil: 'networkidle2', // iets minder streng dan 'networkidle0'
+  timeout: 0
+});
+
+await page.waitForSelector('.wf-bento-grid__item', { timeout: 60000 });
 
   const recepten = await page.evaluate(() => {
     const items = document.querySelectorAll('.wf-bento-grid__item');
@@ -27,5 +33,10 @@ const puppeteer = require("puppeteer");
   fs.mkdirSync('public', { recursive: true });
   fs.writeFileSync('public/recepten.json', JSON.stringify(recepten, null, 2));
 
+  const content = await page.content();
+  require('fs').writeFileSync('public/debug.html', content);
+
   await browser.close();
 })();
+
+
