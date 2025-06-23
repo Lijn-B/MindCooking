@@ -1,6 +1,10 @@
 
 name: Cookidoo Scraper
 
+permissions:
+  contents: write
+
+
 on:
   schedule:
     - cron: '0 6 * * *'  # Dagelijks om 06:00 UTC
