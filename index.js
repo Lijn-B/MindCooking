@@ -17,6 +17,13 @@ await page.goto('https://cookidoo.be/foundation/nl-BE', {
   timeout: 0
 });
 
+// ✅ Debug output
+const content = await page.content();
+require('fs').mkdirSync('public', { recursive: true });
+require('fs').writeFileSync('public/debug.html', content);
+
+// Nu pas wachten op recepten
+
 await page.waitForSelector('.wf-bento-grid__item', { timeout: 60000 });
 
   const recepten = await page.evaluate(() => {
@@ -33,8 +40,6 @@ await page.waitForSelector('.wf-bento-grid__item', { timeout: 60000 });
   fs.mkdirSync('public', { recursive: true });
   fs.writeFileSync('public/recepten.json', JSON.stringify(recepten, null, 2));
 
-  const content = await page.content();
-  require('fs').writeFileSync('public/debug.html', content);
 
   await browser.close();
 })();
