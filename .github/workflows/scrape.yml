@@ -33,13 +33,6 @@
           - name: Run scraper
             run: npm start
             
-          - name: Upload screenshot als artifact
-            uses: actions/upload-artifact@v3
-            with:
-              name: screenshot
-              path: public/screenshot.png
-
-
           - name: Upload alle bestanden in public/ via GitHub API
             env:
               GH_PAT: ${{ secrets.GH_PAT }}
