@@ -35,13 +35,42 @@ jobs:
       - name: Run scraper
         run: npm start
 
-      - name: Commit & Push resultaten
+      - name: Upload recepten en debug via GitHub API
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
+        REPO: ${{ github.repository }}
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}
-          git add public/recepten.json public/debug.html
-          git commit -m "Update recepten en debug" || echo "No changes to commit"
-          git push origin main --force
+          files=("public/recepten.json" "public/debug.html")
+          branch="main"
+          
+          for file in "${files[@]}"; do
+          content_base64=$(base64 -w 0 "$file")
+          filename=$(basename "$file")
+          
+          # Check if file already exists to get its SHA
+          response=$(curl -s -H "Authorization: token $GH_PAT" \
+              https://api.github.com/repos/$REPO/contents/public/$filename)
+          
+          sha=$(echo "$response" | jq -r .sha)
+          
+          if [[ "$sha" == "null" ]]; then
+              sha_option=""
+          else
+              sha_option=", \"sha\": \"$sha\""
+          fi
+          
+          json_payload=$(cat <<EOF
+{
+    "message": "Update $filename via GitHub API",
+    "branch": "$branch",
+    "content": "$content_base64"
+    $sha_option
+}
+    EOF
+)
+
+      curl -s -X PUT -H "Authorization: token $GH_PAT" \
+        -H "Content-Type: application/json" \
+        -d "$json_payload" \
+        "https://api.github.com/repos/$REPO/contents/public/$filename"
+    done
