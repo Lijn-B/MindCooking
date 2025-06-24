@@ -48,7 +48,7 @@ const fs = require("fs");
     "public/recepten.json",
     JSON.stringify(recepten, null, 2)
   );
-  console.log(`✅ ${recepten.length} recepten opgeslagen in recepten.json`);
+  console.log(`${recepten.length} recepten opgeslagen in recepten.json`);
 
   // screenshot optioneel
   await page.screenshot({ path: "public/screenshot.png", fullPage: true });
