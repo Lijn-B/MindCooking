@@ -35,7 +35,7 @@ jobs:
       - name: Run scraper
         run: npm start
 
-      - name: Upload recepten en debug via GitHub API
+      - name: Upload recepten en debug via GitHub-API
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         REPO: ${{ github.repository }}
@@ -69,7 +69,7 @@ jobs:
     EOF
 )
 
-      curl -s -X PUT -H "Authorization: token $GH_PAT" \
+    curl -s -X PUT -H "Authorization: token $GH_PAT" \
         -H "Content-Type: application/json" \
         -d "$json_payload" \
         "https://api.github.com/repos/$REPO/contents/public/$filename"
