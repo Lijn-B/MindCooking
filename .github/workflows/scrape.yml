@@ -43,4 +43,4 @@ jobs:
             git add public/recepten.json public/debug.html
             git commit -m "Update recepten en debug" || echo "No changes to commit"
             git pull origin main --rebase --autostash
-            git push origin main
+            git push origin main --force
