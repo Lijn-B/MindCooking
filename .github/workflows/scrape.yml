@@ -40,6 +40,9 @@
             run: |
               branch="main"
               
+              # Verwijder debug.html als die bestaat
+              [ -f public/debug.html ] && rm public/debug.html && echo "🧹 debug.html verwijderd"
+              
               for file in public/*; do
                 echo "📤 Upload: $file"
 
