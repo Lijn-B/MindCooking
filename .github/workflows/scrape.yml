@@ -42,7 +42,12 @@ jobs:
 
           for file in public/*; do
             echo "📤 Upload: $file"
-
+            size=$(stat -c%s "$file")
+            if [ "$size" -gt 900000 ]; then
+              echo "⚠️ Bestand $file is te groot (${size} bytes), overslaan."
+              continue
+            fi
+              
             content_base64=$(base64 -w 0 "$file")
             filename=$(basename "$file")
 
