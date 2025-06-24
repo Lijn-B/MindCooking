@@ -2,9 +2,9 @@ name: Update recepten HTML
 
 on:
   schedule:
-    - cron: "0 6 * * *"  # Dagelijks om 6:00 uur 's ochtends UTC (8:00 NL tijd)
+    - cron: "0 6 * * *"  # Dagelijks om 6:00 uur UTC (8:00 NL tijd)
   workflow_dispatch:
-  
+
 permissions:
   contents: write
 
@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Repo clonen
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
 
       - name: Node installeren
         uses: actions/setup-node@v4
@@ -29,18 +27,16 @@ jobs:
       - name: Scraper uitvoeren
         run: node index.js
 
+      - name: 📦 Parse recepten-bron.html naar recepten.json
+        run: node parse.js
+
       - name: Git instellen
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Wijzigingen committen
+      - name: Commit en push wijzigingen
         run: |
-          git add public/recepten-bron.html
-          git commit -m "✅ Dagelijkse update: recepten-bron.html" || echo "Geen wijzigingen"
-
-      - name: Push naar GitHub
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          git add public/recepten-bron.html public/recepten.json
+          git commit -m "✅ Dagelijkse update: recepten" || echo "Geen wijzigingen"
+          git push
