@@ -1,76 +1,76 @@
-name: Cookidoo Scraper
+    name: Cookidoo Scraper
 
-permissions:
-  contents: write
+    permissions:
+      contents: write
 
-on:
-  schedule:
-    - cron: '0 6 * * *'  # Dagelijks om 06:00 UTC
-  workflow_dispatch:
+    on:
+      schedule:
+        - cron: '0 6 * * *'  # Dagelijks om 06:00 UTC
+      workflow_dispatch:
 
-jobs:
-  scrape:
-    runs-on: ubuntu-latest
+    jobs:
+      scrape:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          persist-credentials: true
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
+            with:
+              fetch-depth: 0
+              persist-credentials: true
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+          - name: Install Node.js
+            uses: actions/setup-node@v3
+            with:
+              node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
- 
-      - name: Clean install
-        run: rm -rf node_modules package-lock.json && npm install
+          - name: Install dependencies
+            run: npm install
+     
+          - name: Clean install
+            run: rm -rf node_modules package-lock.json && npm install
 
-      - name: Run scraper
-        run: npm start
+          - name: Run scraper
+            run: npm start
 
-       - name: Upload alle bestanden in public/ via GitHub API
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-          REPO: ${{ github.repository }}
-        run: |
-          branch="main"
-          
-          for file in public/*; do
-            echo "📤 Upload: $file"
+          - name: Upload alle bestanden in public/ via GitHub API
+            env:
+              GH_PAT: ${{ secrets.GH_PAT }}
+              REPO: ${{ github.repository }}
+            run: |
+              branch="main"
+              
+              for file in public/*; do
+                echo "📤 Upload: $file"
 
-            # Bestandsgrootte bepalen
-            size=$(wc -c <"$file")
-            echo "📦 Bestandsgrootte: $size bytes"
+                # Bestandsgrootte bepalen
+                size=$(wc -c <"$file")
+                echo "📦 Bestandsgrootte: $size bytes"
 
-            if [ "$size" -gt 900000 ]; then
-              echo "⚠️ Bestand $file is te groot (${size} bytes), overslaan."
-              continue
-            fi
+                if [ "$size" -gt 900000 ]; then
+                  echo "⚠️ Bestand $file is te groot (${size} bytes), overslaan."
+                  continue
+                fi
 
-            content_base64=$(base64 -w 0 "$file")
-            filename=$(basename "$file")
+                content_base64=$(base64 -w 0 "$file")
+                filename=$(basename "$file")
 
-            # Check of bestand al bestaat
-            response=$(curl -s -H "Authorization: token $GH_PAT" \
-              https://api.github.com/repos/$REPO/contents/public/$filename)
+                # Check of bestand al bestaat
+                response=$(curl -s -H "Authorization: token $GH_PAT" \
+                  https://api.github.com/repos/$REPO/contents/public/$filename)
 
-            sha=$(echo "$response" | jq -r .sha)
+                sha=$(echo "$response" | jq -r .sha)
 
-            if [[ "$sha" == "null" ]]; then
-              sha_option=""
-            else
-              sha_option=", \"sha\": \"$sha\""
-            fi
+                if [[ "$sha" == "null" ]]; then
+                  sha_option=""
+                else
+                  sha_option=", \"sha\": \"$sha\""
+                fi
 
-            json_payload="{\"message\": \"Update $filename via GitHub API\", \"branch\": \"$branch\", \"content\": \"$content_base64\" $sha_option }"
+                json_payload="{\"message\": \"Update $filename via GitHub API\", \"branch\": \"$branch\", \"content\": \"$content_base64\" $sha_option }"
 
-            curl -s -X PUT -H "Authorization: token $GH_PAT" \
-              -H "Content-Type: application/json" \
-              -d "$json_payload" \
-              "https://api.github.com/repos/$REPO/contents/public/$filename"
-          done
+                curl -s -X PUT -H "Authorization: token $GH_PAT" \
+                  -H "Content-Type: application/json" \
+                  -d "$json_payload" \
+                  "https://api.github.com/repos/$REPO/contents/public/$filename"
+              done
