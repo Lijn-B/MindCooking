@@ -33,34 +33,32 @@ jobs:
       - name: Run scraper
         run: npm start
 
-      - name: Upload recepten en debug via GitHub API
+      - name: Upload recepten.json via GitHub API
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
           REPO: ${{ github.repository }}
         run: |
-          files=("public/recepten.json" "public/debug.html")
+          file="public/recepten.json"
           branch="main"
-          
-          for file in "${files[@]}"; do
-            content_base64=$(base64 -w 0 "$file")
-            filename=$(basename "$file")
 
-            # Check if file already exists to get its SHA
-            response=$(curl -s -H "Authorization: token $GH_PAT" \
-              https://api.github.com/repos/$REPO/contents/public/$filename)
+          content_base64=$(base64 -w 0 "$file")
+          filename=$(basename "$file")
 
-            sha=$(echo "$response" | jq -r .sha)
+          # Check if file already exists to get its SHA
+          response=$(curl -s -H "Authorization: token $GH_PAT" \
+            https://api.github.com/repos/$REPO/contents/public/$filename)
 
-            if [[ "$sha" == "null" ]]; then
-              sha_option=""
-            else
-              sha_option=", \"sha\": \"$sha\""
-            fi
+          sha=$(echo "$response" | jq -r .sha)
 
-            json_payload="{\"message\": \"Update $filename via GitHub API\", \"branch\": \"$branch\", \"content\": \"$content_base64\" $sha_option }"
+          if [[ "$sha" == "null" ]]; then
+            sha_option=""
+          else
+            sha_option=", \"sha\": \"$sha\""
+          fi
 
-            curl -s -X PUT -H "Authorization: token $GH_PAT" \
-              -H "Content-Type: application/json" \
-              -d "$json_payload" \
-              "https://api.github.com/repos/$REPO/contents/public/$filename"
-          done
+          json_payload="{\"message\": \"Update $filename via GitHub API\", \"branch\": \"$branch\", \"content\": \"$content_base64\" $sha_option }"
+
+          curl -s -X PUT -H "Authorization: token $GH_PAT" \
+            -H "Content-Type: application/json" \
+            -d "$json_payload" \
+            "https://api.github.com/repos/$REPO/contents/public/$filename"
