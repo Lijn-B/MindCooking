@@ -2,57 +2,44 @@ const puppeteer = require("puppeteer");
 const fs = require("fs");
 
 (async () => {
-  console.log("Start scraper...");
-
   const browser = await puppeteer.launch({
     headless: true,
-    args: ["--no-sandbox"],
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
 
   const page = await browser.newPage();
-  console.log("Bezoek cookidoo...");
-  await page.goto("https://cookidoo.be/foundation/nl-BE", {
-    waitUntil: "networkidle2",
-  });
 
-  // Scroll naar beneden om recepten te activeren
-  await page.evaluate(() => {
-    window.scrollBy(0, window.innerHeight);
-  });
-  console.log("Scrollen...");
-  await new Promise((r) => setTimeout(r, 5000)); // wacht 5 sec na scroll
-
-  // Wacht op recept-tegels
-  console.log("Wacht op recept-tegels...");
-  await page.waitForFunction(
-    () => document.querySelectorAll("a.recipe-tile").length > 0,
-    { timeout: 15000 }
+  await page.setUserAgent(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.1 Safari/537.36"
   );
 
-  console.log("Zoek recepten...");
-  const recepten = await page.evaluate(() => {
-    const tiles = document.querySelectorAll("a.recipe-tile");
-    return Array.from(tiles).map((el) => {
-      const title =
-        el.querySelector(".tile__title")?.textContent?.trim() || "";
-      const image = el.querySelector("img")?.src || "";
-      const href = el.getAttribute("href") || "";
-      const link = href.startsWith("/")
-        ? `https://cookidoo.be${href}`
-        : href;
-      return { title, image, link };
+  await page.setViewport({ width: 1280, height: 2000 });
+
+  await page.goto("https://cookidoo.be/foundation/nl-BE", {
+    waitUntil: "networkidle2",
+    timeout: 0
+  });
+
+  // Scroll rustig naar beneden (langzamer + verder dan eerst)
+  await page.evaluate(async () => {
+    await new Promise((resolve) => {
+      let totalHeight = 0;
+      const distance = 200;
+      const timer = setInterval(() => {
+        window.scrollBy(0, distance);
+        totalHeight += distance;
+
+        if (totalHeight > 2500) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 300);
     });
   });
 
-  fs.writeFileSync(
-    "public/recepten.json",
-    JSON.stringify(recepten, null, 2)
-  );
-  console.log(`${recepten.length} recepten opgeslagen in recepten.json`);
-
-  // screenshot optioneel
-  await page.screenshot({ path: "public/screenshot.png", fullPage: true });
+  // Schrijf volledige HTML naar bestand
+  fs.mkdirSync("public", { recursive: true });
+  fs.writeFileSync("public/recepten-bron.html", await page.content());
 
   await browser.close();
-  console.log("Scraper klaar!");
 })();
