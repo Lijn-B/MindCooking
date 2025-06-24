@@ -36,6 +36,9 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
+          git fetch origin
+          git checkout main                         
           git add public/recepten.json public/debug.html
           git commit -m "Update recepten en debug" || echo "No changes to commit"
+          git pull origin main --rebase                             
           git push
