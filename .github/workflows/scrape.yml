@@ -57,15 +57,7 @@ jobs:
               sha_option=", \"sha\": \"$sha\""
             fi
 
-            json_payload=$(cat <<EOF
-{
-  "message": "Update $filename via GitHub API",
-  "branch": "$branch",
-  "content": "$content_base64"
-  $sha_option
-}
-EOF
-)
+            json_payload="{\"message\": \"Update $filename via GitHub API\", \"branch\": \"$branch\", \"content\": \"$content_base64\" $sha_option }"
 
             curl -s -X PUT -H "Authorization: token $GH_PAT" \
               -H "Content-Type: application/json" \
