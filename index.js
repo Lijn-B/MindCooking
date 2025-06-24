@@ -46,6 +46,11 @@ const fs = require("fs");
   fs.mkdirSync("public", { recursive: true });
   fs.writeFileSync("public/debug.html", content);
 
+  const rawHtml = await page.content();
+  fs.writeFileSync('public/html-voor-scrape.html', rawHtml);
+  console.log('HTML start:', rawHtml.slice(0, 500));
+
+
   console.log("Zoek recepten...");
   const recepten = await page.evaluate(() => {
     const items = document.querySelectorAll("a.recipe-tile");
