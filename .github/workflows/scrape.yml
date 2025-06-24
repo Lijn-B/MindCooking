@@ -33,21 +33,25 @@ jobs:
       - name: Run scraper
         run: npm start
 
-      - name: Upload alle bestanden in public/ via GitHub API
+       - name: Upload alle bestanden in public/ via GitHub API
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
           REPO: ${{ github.repository }}
         run: |
           branch="main"
-
+          
           for file in public/*; do
             echo "📤 Upload: $file"
-            size=$(stat -c%s "$file")
+
+            # Bestandsgrootte bepalen
+            size=$(wc -c <"$file")
+            echo "📦 Bestandsgrootte: $size bytes"
+
             if [ "$size" -gt 900000 ]; then
               echo "⚠️ Bestand $file is te groot (${size} bytes), overslaan."
               continue
             fi
-              
+
             content_base64=$(base64 -w 0 "$file")
             filename=$(basename "$file")
 
