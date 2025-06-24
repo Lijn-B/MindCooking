@@ -1,80 +1,44 @@
-    name: Cookidoo Scraper
+name: Update recepten HTML
 
-    permissions:
-      contents: write
+on:
+  schedule:
+    - cron: "0 6 * * *"  # Dagelijks om 6:00 uur 's ochtends UTC (8:00 NL tijd)
+  workflow_dispatch:
 
-    on:
-      schedule:
-        - cron: '0 6 * * *'  # Dagelijks om 06:00 UTC
-      workflow_dispatch:
+jobs:
+  scrape-and-commit:
+    runs-on: ubuntu-latest
 
-    jobs:
-      scrape:
-        runs-on: ubuntu-latest
+    steps:
+      - name: Repo clonen
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-        steps:
-          - name: Checkout code
-            uses: actions/checkout@v3
-            with:
-              fetch-depth: 0
-              persist-credentials: true
+      - name: Node installeren
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-          - name: Install Node.js
-            uses: actions/setup-node@v3
-            with:
-              node-version: '20'
+      - name: Dependencies installeren
+        run: npm ci
 
-          - name: Install dependencies
-            run: npm install
-     
-          - name: Clean install
-            run: rm -rf node_modules package-lock.json && npm install
+      - name: Scraper uitvoeren
+        run: node index.js
 
-          - name: Run scraper
-            run: npm start
-            
-          - name: Upload alle bestanden in public/ via GitHub API
-            env:
-              GH_PAT: ${{ secrets.GH_PAT }}
-              REPO: ${{ github.repository }}
-            run: |
-              branch="main"
-              
-              # Verwijder debug.html als die bestaat
-              [ -f public/debug.html ] && rm public/debug.html && echo "🧹 debug.html verwijderd"
-              [ -f public/html-voor-scrape.html ] && rm public/html-voor-scrape.html && echo "🧹 html-voor-scrape.html verwijderd"
+      - name: Git instellen
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
 
-              for file in public/*; do
-                echo "📤 Upload: $file"
+      - name: Wijzigingen committen
+        run: |
+          git pull origin main
+          git add public/recepten-bron.html
+          git commit -m "✅ Dagelijkse update: recepten-bron.html" || echo "Geen wijzigingen"
 
-                # Bestandsgrootte bepalen
-                size=$(wc -c <"$file")
-                echo "📦 Bestandsgrootte: $size bytes"
-
-                if [ "$size" -gt 900000 ]; then
-                  echo "⚠️ Bestand $file is te groot (${size} bytes), overslaan."
-                  continue
-                fi
-
-                content_base64=$(base64 -w 0 "$file")
-                filename=$(basename "$file")
-
-                # Check of bestand al bestaat
-                response=$(curl -s -H "Authorization: token $GH_PAT" \
-                  https://api.github.com/repos/$REPO/contents/public/$filename)
-
-                sha=$(echo "$response" | jq -r .sha)
-
-                if [[ "$sha" == "null" ]]; then
-                  sha_option=""
-                else
-                  sha_option=", \"sha\": \"$sha\""
-                fi
-
-                json_payload="{\"message\": \"Update $filename via GitHub API\", \"branch\": \"$branch\", \"content\": \"$content_base64\" $sha_option }"
-
-                curl -s -X PUT -H "Authorization: token $GH_PAT" \
-                  -H "Content-Type: application/json" \
-                  -d "$json_payload" \
-                  "https://api.github.com/repos/$REPO/contents/public/$filename"
-              done
+      - name: Push naar GitHub
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
