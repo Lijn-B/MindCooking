@@ -32,7 +32,7 @@ jobs:
           git config --global user.email "actions@github.com"
 
       - name: Wijzigingen committen
-      run: |
+        run: |
           git add public/recepten-bron.html
           git commit -m "✅ Dagelijkse update: recepten-bron.html" || echo "Geen wijzigingen"
 
