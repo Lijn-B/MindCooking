@@ -24,7 +24,7 @@ require('fs').writeFileSync('public/debug.html', content);
 
 // Nu pas wachten op recepten
 
-await page.waitForSelector('.wf-bento-grid__item', { timeout: 60000 });
+await page.waitForSelector('.wf-bento-grid__container', { timeout: 60000 });
 
   const recepten = await page.evaluate(() => {
     const items = document.querySelectorAll('.wf-bento-grid__item');
