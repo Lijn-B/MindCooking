@@ -42,12 +42,16 @@ const fs = require("fs");
 
     console.log("Wacht na scroll...");
     await new Promise((resolve) => setTimeout(resolve, 3000));
+	console.log("Wacht extra lang op mogelijke lazy loading...");
+	await new Promise((resolve) => setTimeout(resolve, 8000));
 
     console.log("Sla HTML op voor controle...");
     const rawHtml = await page.content();
     fs.mkdirSync("public", { recursive: true });
     fs.writeFileSync("public/html-voor-scrape.html", rawHtml);
     console.log("Eerste 500 tekens HTML:", rawHtml.slice(0, 500));
+    await page.screenshot({ path: "public/screenshot.png", fullPage: true });
+    console.log("📸 Screenshot opgeslagen.");
 
     console.log("Zoek recepten...");
     const recepten = await page.evaluate(() => {
