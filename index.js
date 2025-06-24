@@ -32,7 +32,7 @@ await page.evaluate(async () => {
 });
 
   const recepten = await page.evaluate(() => {
-    const items = document.querySelectorAll('.wf-bento-grid__item');
+    const items = document.querySelectorAll('a.recipe-tile');
     return Array.from(items).map(item => {
       const title = item.querySelector('.tile__title')?.innerText || '';
       const image = item.querySelector('img')?.src || '';
