@@ -20,11 +20,6 @@
     "link": "https://cookidoo.be/recipes/recipe/nl-BE/r934020"
   },
   {
-    "title": "Puree met Andijvie, Gehaktballetjes en Vleessaus",
-    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/e588942061aa6e763ce100b9a87cea60/Derivates/2ab72ac0534e88db983b248ccd23ced8a9c412c9",
-    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r924828"
-  },
-  {
     "title": "Zoete Aardappelpuree met Linzen, Feta en Balsamico-Uiensaus",
     "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/e5eb76e2e2fea925a429721ed0407992/Derivates/3970cfadcc7dc7d63d479cb88dc80a2fa068058c",
     "link": "https://cookidoo.be/recipes/recipe/nl-BE/r924831"
@@ -48,5 +43,10 @@
     "title": "Cinnamon Buns met Karamel en Pecannoten",
     "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/27b4e4a040bbe7cbf934e6697595829e/Derivates/239f4ea591b44209f22c2af42a47ba603caced61",
     "link": "https://cookidoo.be/recipes/recipe/nl-BE/r928692"
+  },
+  {
+    "title": "Croissants",
+    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/66bc6aca3537f8400a8e4cd3be2aa2b9/Derivates/607fc7a1a1aafe57de6872db31aea860e969322b",
+    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r928715"
   }
 ]
