@@ -1,5 +1,10 @@
 [
   {
+    "title": "Shakshuka",
+    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/07a8175e6be7050c17527a6bc2d025b4/Derivates/eaad58965ab55061cda93159edc55d1eed53982d",
+    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r815257"
+  },
+  {
     "title": "Gekonfijte Payaya (Dulce de Mamón)",
     "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/a5da4030-f22e-46cf-992b-2d1db200a1a0/Derivates/b4086dd3-bcc4-4c01-b847-70e185c66383",
     "link": "https://cookidoo.be/recipes/recipe/nl-BE/r943809"
@@ -43,10 +48,5 @@
     "title": "Confituur Tomaat-Vanille",
     "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/6B1F7ABE-9643-450D-BEE1-BD8BF1AA9EFF/Derivates/ed8752ca-311f-4324-a3d8-e03c4527fbee",
     "link": "https://cookidoo.be/recipes/recipe/nl-BE/r943798"
-  },
-  {
-    "title": "Mangochutney",
-    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/9C7391B3-9344-4E0C-9053-23F006F6C78A/Derivates/1CB84F72-9A43-4A89-AE46-B357FD0188E5",
-    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r75455"
   }
 ]
