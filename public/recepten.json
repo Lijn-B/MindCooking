@@ -1,35 +1,5 @@
 [
   {
-    "title": "Brioche met vijgenconfituur en walnoten",
-    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/89ae9809d45361422c303afbaf40ce05/Derivates/226cfcac841b7ca0764cddfbf0f70f7365c93ced",
-    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r944337"
-  },
-  {
-    "title": "Confituur van rode uien",
-    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/EC882581-611C-40EC-BC7D-52C6AD86951D/Derivates/02E7374B-8AC0-4D78-AE58-D3061A67737A",
-    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r943801"
-  },
-  {
-    "title": "Gekruide tomatenconfituur",
-    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/DC6C566C-98F5-4E04-9EF8-9110B3FE757F/Derivates/90EA6026-F300-492F-ADD2-896B16B82EA2",
-    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r1228789"
-  },
-  {
-    "title": "Kruidige appelconfituur",
-    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/28332272a04c9287e659a1c6274327bd/Derivates/8fa846c2b4ca96e703e0cb2f5862b4f480399bb6",
-    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r1228790"
-  },
-  {
-    "title": "Sinaasappelconfituur met Campari",
-    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/bc0a8503-5ccf-433a-bc07-a0d4849843eb/Derivates/d0502b01-db82-4d03-aae1-b1e649dddc0a",
-    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r758753"
-  },
-  {
-    "title": "Vijgenconfituur",
-    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/C0978DBC-4B17-4CBD-BF03-031A18BCE8D2/Derivates/42B82CA8-C5C2-46DA-8848-DCDD8C8B5CEE",
-    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r1228787"
-  },
-  {
     "title": "Goudgebakken zuurdesem muffins",
     "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/f14812e65e57146d12e85f9510e7a32f/Derivates/b61f8b8bed401e9b1b3bb3cfcda0987aa19d9c30",
     "link": "https://cookidoo.be/recipes/recipe/nl-BE/r951376"
@@ -48,5 +18,35 @@
     "title": "Miso Boter met gekonfijte Uien",
     "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/0dcd7b53a7c77c0f1f300ad58006ab7b/Derivates/1fac79271a9085a512795c250a535db012688500",
     "link": "https://cookidoo.be/recipes/recipe/nl-BE/r944399"
+  },
+  {
+    "title": "Spicy Vanilla Zuurdesembrood",
+    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/4e6d837eaca11c9303e09dd6dddb73fc/Derivates/f185f4fa3a65c28db7f25ca9e78f378f47195cff",
+    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r944398"
+  },
+  {
+    "title": "Zuurdesem Focaccia",
+    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/f7dd4d73ba60cec8b74729d62256633d/Derivates/6509b4dc3f67268504ad88f33703c4f4f768405f",
+    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r944393"
+  },
+  {
+    "title": "Zuurdesem Stokbroodjes",
+    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/1d41c733d79ca49f212155f20da52474/Derivates/d7e4feef25051ea96393cc68f6b9286771c01a62",
+    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r951526"
+  },
+  {
+    "title": "Zuurdesembrood door Atelier Roger",
+    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/9ebaaba14a128f6b92b64d51d62469e7/Derivates/d8a446c6608a344bd03b74b6781a5e77e89ec82c",
+    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r944392"
+  },
+  {
+    "title": "Gevlochten zuurdesembrood met basilicumpesto en mediterrane pistache garnituur",
+    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/6c752c42211ea6af785eb4af1366b57c/Derivates/67821d595febda7b8efd558fed647a653096c9cc",
+    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r951375"
+  },
+  {
+    "title": "Hartige haver-zuurdesempannenkoekjes met roomkaas en salade",
+    "image": "https://assets.tmecosys.com/image/upload/t_web276x368/img/recipe/ras/Assets/ff04dd67db1d340f737ab68ea349da9b/Derivates/1af20a72d4accb590adfb7551c0dc5f20b73960e",
+    "link": "https://cookidoo.be/recipes/recipe/nl-BE/r951373"
   }
 ]
